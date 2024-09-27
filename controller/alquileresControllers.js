@@ -22,32 +22,29 @@ exports.getAlquiler = async (req, res) => {
     }
 }
 
+
 exports.historial = async (req, res) => {
     try {
         const alquileress = await alquileres.findAll({
             include: [
-                {model: cliente,
-                as: 'clientes',
-                attributes: ['nombre,correo,numero_licencia']},
-                {model:autos,
-                as: 'autos',
-                attributes: ['marca,modelo,ano, disponible']},
-                
-    ]
+                {
+                    model: cliente,
+                    as: 'clientes',
+                    attributes: ['nombre', 'correo', 'numero_licencia'] 
+                },
+                {
+                    model: autos,
+                    as: 'autos',
+                    attributes: ['marca', 'modelo', 'ano', 'disponible']
+                },
+            ]
         });
-        res.json(alquileress)
-
+        res.json(alquileress);
     } catch (error) {
         console.log(error);
-        res.json({ mensaje: 'Error al obtener el historial' });
-        
-        
+        res.status(500).json({ mensaje: 'Error al obtener el historial', error: error.message });
     }
-}
-
-
-
-
+};
 
 
 
