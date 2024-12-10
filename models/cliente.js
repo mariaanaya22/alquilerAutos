@@ -14,9 +14,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   cliente.init({
-    nombre: DataTypes.STRING,
-    corre: DataTypes.STRING,
-    numero_licencia: DataTypes.STRING
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    correo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    numero_licencia: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    contraseña: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    }
   }, {
     sequelize,
     modelName: 'cliente',

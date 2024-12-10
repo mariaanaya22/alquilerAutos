@@ -1,27 +1,42 @@
 const {cliente} = require('../models')
-
-exports.createCliente = async (req,res) =>{
-    const {nombre,correo,numero_licencia}= req.body;
+const bcrypt = require('bcryptjs');
+exports.createCliente = async (req, res) => {
+    const { nombre, correo, numero_licencia, contraseña } = req.body; 
     try {
-        const Crear = await cliente.create({nombre,correo,numero_licencia})
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+        const Crear = await cliente.create({
+            nombre,
+            correo,
+            numero_licencia,
+            contraseña: hashedPassword 
+        });
         res.json(Crear);
     } catch (error) {
         console.log(error);
-        res.json({mensaje:'error'})
-        
-    };
+        res.json({ mensaje: 'error' });
+    }
 };
 
-exports.getcliente = async (req, res) => {
-    
+exports.loginCliente = async (req, res) => {
+    const { correo, contraseña } = req.body; // Obtener correo y contraseña
     try {
-        const clientes = await cliente.findAll();
-        res.json(clientes);
+        const usuario = await cliente.findOne({ where: { correo } }); // Buscar por correo
+        if (!usuario) {
+            return res.status(404).json({ mensaje: 'Correo no encontrado' });
+        }
+
+        const esValida = await bcrypt.compare(contraseña, usuario.contraseña); // Comparar contraseña
+        if (!esValida) {
+            return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+        }
+
+        res.json({ mensaje: 'Inicio de sesión exitoso', usuario });
     } catch (error) {
         console.log(error);
-        res.json({ mensaje: 'Error al obtener los cliente' });
+        res.status(500).json({ mensaje: 'Error al iniciar sesión' });
     }
-}
+};
+
 
 exports.actualizarcliente = async (req, res) =>{
     const {id} = req.params;
@@ -61,7 +76,7 @@ exports.eliminarCliente = async (req, res) => {
         console.log(error);
         res.json({mensaje:'error no eliminado'})
     }
-}
+};
 
 exports.verclienteId= async (req, res) => {
     const {idC} = req.params;
@@ -76,7 +91,7 @@ exports.verclienteId= async (req, res) => {
         res.json({ mensaje: "error no muestra id espe" });
     }
     
-}
+};
 
 
 

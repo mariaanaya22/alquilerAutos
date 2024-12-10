@@ -12,10 +12,14 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
-      corre: {
-        type: Sequelize.STRING
+      correo: { // Corrección de typo y unicidad
+        type: Sequelize.STRING,
+        unique: true
       },
       numero_licencia: {
+        type: Sequelize.STRING
+      },
+      contraseña: { // Nueva columna para la contraseña
         type: Sequelize.STRING
       },
       createdAt: {

@@ -1,12 +1,14 @@
 const express = require('express')
+const bcrypt = require('bcryptjs');
+
 const router = express.Router()
 const ClienteControllers = require('../controller/clientesControllers')
 
-router.post('/clientes',ClienteControllers.createCliente);
-router.get('/clientes', ClienteControllers.getcliente);
+router.post('/crearclientes',ClienteControllers.createCliente);
+router.get('/login', ClienteControllers.loginCliente);
 
-router.put('/clientes/:id', ClienteControllers.actualizarcliente);
-router.delete('/clientes/:id', ClienteControllers.eliminarCliente);
-router.get('/clientes/:idC', ClienteControllers.verclienteId);
+router.put('/actualizar/:id', ClienteControllers.actualizarcliente);
+router.delete('/Eliminarclientes/:id', ClienteControllers.eliminarCliente);
+router.get('/verclientes/:idC', ClienteControllers.verclienteId);
 
 module.exports = router

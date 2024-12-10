@@ -6,7 +6,7 @@ const AlquileresRoutes = require('./routes/alquileresRoutes.js')
 const autosRoutes = require('./routes/autosRoutes.js')
 const ClienteRoutes = require('./routes/clienteRoutes.js')
 
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 6000
 
 app.use(express.json());
 
